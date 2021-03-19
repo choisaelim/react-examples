@@ -4,19 +4,51 @@ import ButtonPanel from './component/ButtonPanel';
 import Display from './component/Display';
 
 const App = () => {
-	const [number, setNumber] = useState(0);
+	const [number, setNumber] = useState('0');
 	const isNumber = (item) => {
 		return /[0-9]+/.test(item);
 	};
 
 	const handleClick = useCallback((name) => {
 		//button Name을 받아 계산기 기능 수행
-		
+		if (isNumber(name)) {
+			setNumber((num) => (isNaN((num + name) * 1) ? num + name : (num + name) * 1));
+		} else {
+			switch (name) {
+				//NaN 오류 수정 필요
+				case '+/-':
+					setNumber((num) => num * -1 + '');
+					break;
+				case 'AC':
+					setNumber(0);
+					break;
+				case '%':
+					setNumber((num) => (num % name) + '');
+					break;
+				case '÷':
+					setNumber((num) => num / name + '');
+					break;
+				case 'x':
+					setNumber((num) => num.toString() * name);
+					break;
+				case '-':
+					setNumber((num) => num - name + '');
+					break;
+				case '+':
+					setNumber((num) => num + name + '');
+					break;
+				case '=':
+					setNumber((num) => eval(num));
+					break;
+				default:
+					break;
+			}
+		}
 	}, []);
 
 	return (
 		<div className="component-app">
-			<Display value = {number}/>
+			<Display value={number} />
 			<ButtonPanel handleClick={handleClick} />
 		</div>
 	);
