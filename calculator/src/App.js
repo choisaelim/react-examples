@@ -11,36 +11,28 @@ const App = () => {
 
 	const handleClick = useCallback((name) => {
 		//button Name을 받아 계산기 기능 수행
-		if (isNumber(name)) {
-			setNumber((num) => (isNaN((num + name) * 1) ? num + name : (num + name) * 1));
+		if (isNumber(name) || name === '.') {
+			setNumber((num) => (isNaN((num + name) * 1) ? num + name : ((num + name) * 1).toString()));
 		} else {
 			switch (name) {
-				//NaN 오류 수정 필요
 				case '+/-':
-					setNumber((num) => num * -1 + '');
+					setNumber((num) => num * -1);
 					break;
 				case 'AC':
 					setNumber(0);
 					break;
-				case '%':
-					setNumber((num) => (num % name) + '');
-					break;
 				case '÷':
-					setNumber((num) => num / name + '');
+					setNumber((num) => num + '/');
 					break;
 				case 'x':
-					setNumber((num) => num.toString() * name);
-					break;
-				case '-':
-					setNumber((num) => num - name + '');
-					break;
-				case '+':
-					setNumber((num) => num + name + '');
+					setNumber((num) => num + '*');
 					break;
 				case '=':
 					setNumber((num) => eval(num));
 					break;
 				default:
+					// + - % 경우 기호와 표시가 같음
+					setNumber((num) => num + name);
 					break;
 			}
 		}
