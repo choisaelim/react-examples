@@ -44,7 +44,7 @@ const App = () => {
 
 	const isTwoOperator = (item) => {
 		if (item.length > 1) {
-			const operator = item.match(/[+\-*/%]?[+\-*/%]/);
+			const operator = item.match(/[+\-*/%.]?[+\-*/%.]/);
 			if (operator[0].length === 2) {
 				//123*+46 > 123+46
 				return true;
@@ -58,9 +58,11 @@ const App = () => {
 
 	const handleClick = useCallback((name) => {
 		//button Name을 받아 계산기 기능 수행
-		if (isNumber(name) || name === '.') {
+		if (isNumber(name)) {
 			setNumber((num) => (isNaN((num + name) * 1) ? num + name : ((num + name) * 1).toString()));
 		} else {
+			//마지막에 . 이면 숫자 외에 올 수 없음
+
 			name = name.replace('÷', '/');
 			name = name.replace('x', '*');
 			switch (name) {
