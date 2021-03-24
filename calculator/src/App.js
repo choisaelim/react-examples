@@ -16,26 +16,32 @@ const App = () => {
 		if (!isNaN(num * 1)) {
 			res = (num * -1).toString();
 		} else {
+			//123*45+6 이면 123*45까지만 분리
 			var temp = num.match(/^.+[+\-*/%]/);
-			var test = '';
+			var second = '';
 			if (temp[0].length > 2 && !isNumber(temp[0].substr(temp[0].length - 2, 1))) {
-				debugger;
+				if (temp[0].substr(temp[0].length - 1, 1) === '-') {
+					var first = num.substr(0, temp[0].length - 1);
+					second = num.substr(temp[0].length, num.length - temp[0].length);
+					res = first + second;
+				}
 				//20*3 에서 +/- 했다가 다시 +/- 하면 20*3이 되야 하는데 20*+3이 되는 부분 수정해야 함
-			}
-			switch (temp[0].substr(temp[0].length - 1, 1)) {
-				case '+': //마지막 숫자 앞의 부호가 + 일 때 ex 123+456 > 123-456
-					test = num.substr(temp[0].length, num.length - temp[0].length);
-					res = temp[0].substr(0, temp[0].length - 1) + '-' + test;
-					break;
-				case '-': //마지막 숫자 앞의 부호가 - 일 때 ex 123-456 > 123+456
-					test = num.substr(temp[0].length, num.length - temp[0].length);
-					res = temp[0].substr(0, temp[0].length - 1) + '+' + test;
-					break;
-				default:
-					// 123*456 > 123*-456
-					test = num.substr(temp[0].length, num.length - temp[0].length);
-					res = temp[0].substr(0, temp[0].length) + '-' + test;
-					break;
+			} else {
+				switch (temp[0].substr(temp[0].length - 1, 1)) {
+					case '+': //마지막 숫자 앞의 부호가 + 일 때 ex 123+456 > 123-456
+						second = num.substr(temp[0].length, num.length - temp[0].length);
+						res = temp[0].substr(0, temp[0].length - 1) + '-' + second;
+						break;
+					case '-': //마지막 숫자 앞의 부호가 - 일 때 ex 123-456 > 123+456
+						second = num.substr(temp[0].length, num.length - temp[0].length);
+						res = temp[0].substr(0, temp[0].length - 1) + '+' + second;
+						break;
+					default:
+						// 123*456 > 123*-456
+						second = num.substr(temp[0].length, num.length - temp[0].length);
+						res = temp[0].substr(0, temp[0].length) + '-' + second;
+						break;
+				}
 			}
 		}
 
