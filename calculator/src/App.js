@@ -17,7 +17,7 @@ const App = () => {
 			res = (num * -1).toString();
 		} else {
 			//123*45+6 이면 123*45까지만 분리
-			var temp = num.match(/^.+[+\-*/%]/);
+			var temp = num.match(/^.+[+\-*/%]/); //재귀적으로 들어가야 함 (변수 연산자 변수 연산자 변수부터는 적용되지 않음)
 			var second = '';
 			if (temp[0].length > 2 && !isNumber(temp[0].substr(temp[0].length - 2, 1))) {
 				if (temp[0].substr(temp[0].length - 1, 1) === '-') {
